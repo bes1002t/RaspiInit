@@ -70,11 +70,11 @@ then
     sudo systemctl set-default multi-user.target
 fi
 
-# Sets and enables the wifi if there is no Internet.
+# Configures wifi.
 # Stores an encrypted wifi password.
-lan_state=$(cat /sys/class/net/eth0/operstate)
-wifi_state=$(cat /sys/class/net/wlan0/operstate)
-if [ $lan_state == "down" ] && [ $wifi_state == "down" ];
+echo "Do you want to configure wifi? (Y/N)"
+read use_wifi
+if [[ $use_wifi =~ ^[Yy]$ ]];
 then
     echo "Please enter the wifi SSID"
     read ssid
@@ -86,18 +86,15 @@ then
     then
         wpa_cfg_file="/etc/wpa_supplicant/wpa_supplicant.conf"
         sudo echo "" | sudo tee -a $wpa_cfg_file > /dev/null
-	sudo wpa_passphrase $ssid $wifi_password | sed '3d' | sudo tee -a $wpa_cfg_file  > /dev/null
+        sudo wpa_passphrase $ssid $wifi_password | sed '3d' | sudo tee -a $wpa_cfg_file  > /dev/null
 
-	sudo ifdown wlan0
+        sudo ifdown wlan0
         sudo ifup wlan0
     fi
-
-    lan_state=$(cat /sys/class/net/eth0/operstate)
-    wifi_state=$(cat /sys/class/net/wlan0/operstate)
 fi
 
 # If there is a internet connection, install vim if it's not installed and update the Raspberry Pi afterwards.
-if [ $lan_state == "up" ] || [ $wifi_state == "up" ];
+if [ $(ping www.google.de | $?) == 0 ];
 then
     if [ $(dpkg-query -W -f='${Status}' vim 2>/dev/null | grep -c "ok installed") -eq 0 ];
     then
@@ -114,4 +111,6 @@ then
     then
 	sudo reboot
     fi
+else
+    echo "There is no internet available."
 fi
