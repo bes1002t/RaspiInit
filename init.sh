@@ -67,7 +67,7 @@ echo "Do you want to boot only to the Terminal? (Y/N)"
 read boot_terminal
 if [[ $boot_terminal =~ ^[Yy]$ ]];
 then
-    sudo sudo systemctl set-default multi-user.target
+    sudo systemctl set-default multi-user.target
 fi
 
 # Sets and enables the wifi if there is no Internet.
