@@ -1,7 +1,7 @@
 # /bin/bash
 
 # Sets the Keyboard layout
-echo "Please enter keyboard layout chars."
+echo "Please enter keyboard layout chars. (e.g. de / gb)"
 read keyboard_layout
 
 keyboard_layout_cfg=/etc/default/keyboard
@@ -13,6 +13,7 @@ ssh_config=/etc/ssh/sshd_config
 sudo sed -i "s/PermitRootLogin *.*/PermitRootLogin No/" $ssh_config
 sudo systemctl enable ssh
 sudo systemctl start ssh
+echo "Enabled SSH"
 
 # Ignore pings and broadcasts, this avoid intruders to ping for your ip
 sysctl_config=/etc/sysctl.conf
