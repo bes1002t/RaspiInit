@@ -5,8 +5,8 @@ echo "Please enter keyboard layout chars. (e.g. de / gb)"
 read keyboard_layout
 
 keyboard_layout_cfg=/etc/default/keyboard
-setxkbmap $keyboard_layout
-sed -i "s/^XKBLAYOUT=*.*/XKBLAYOUT=\"$keyboard_layout\" /" $keyboard_layout_cfg
+setxkbmap ${$keyboard_layout,,}
+sed -i "s/^XKBLAYOUT=*.*/XKBLAYOUT=\"${$keyboard_layout,,}\" /" $keyboard_layout_cfg
 
 # Enables SSH but avoids Root login via SSH
 ssh_config=/etc/ssh/sshd_config
