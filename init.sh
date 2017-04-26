@@ -49,7 +49,9 @@ do
     else
         sudo adduser $username
         sudo adduser $username sudo
-	sudo cp -R /home/pi /home/$username
+	sudo cp -R /home/pi/* /home/$username
+        sudo chown -R $username:$username /home/$username
+
 
 	sudo sed -i "s/^ExecStart=-\/sbin\/agetty --autologin *.*/ExecStart=-\/sbin\/agetty --autologin $username --noclear %I \$TERM/" /etc/systemd/system/autologin@.service
         sudo sed -i "s/^autologin-user=.*/autologin-user=/" $autologin_config
