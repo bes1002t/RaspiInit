@@ -3,7 +3,7 @@
 # Sets the Keyboard layout
 echo "Please enter keyboard layout chars. (e.g. de / gb)"
 read keyboard_layout
-keyboard_layout=$(echo "$a" | tr '[:upper:]' '[:lower:]')
+keyboard_layout=$(echo "$keyboard_layout" | tr '[:upper:]' '[:lower:]')
 keyboard_layout_cfg=/etc/default/keyboard
 setxkbmap $keyboard_layout
 sudo sed -i "s/^XKBLAYOUT=*.*/XKBLAYOUT=\"$keyboard_layout\" /" $keyboard_layout_cfg
