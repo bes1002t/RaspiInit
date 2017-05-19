@@ -30,7 +30,6 @@ fi
 
 # Creates a new user, because pi is the default user and should not be used.
 # Remove the pi user after the reboot, so no one except you knows the users and passwords on your Raspberry Pi.
-autologin_config=/etc/lightdm/lightdm.conf
 is_new_user=1
 while [ $is_new_user -eq 1 ]
 do
@@ -54,15 +53,14 @@ do
 
 
 	sudo sed -i "s/^ExecStart=-\/sbin\/agetty --autologin *.*/ExecStart=-\/sbin\/agetty --autologin $username --noclear %I \$TERM/" /etc/systemd/system/autologin@.service
-        sudo sed -i "s/^autologin-user=.*/autologin-user=/" $autologin_config
 
 	is_new_user=0
     fi
 done
 
 # Disable autologin
-# To switch back use 'ln -fs /etc/systemd/system/autologin@.service \ /etc/systemd/system/getty.target.wants/getty@tty1.service'
-ln -fs /lib/systemd/system/getty@.service \ /etc/systemd/system/getty.target.wants/getty@tty1.service
+autologin_config=/etc/lightdm/lightdm.conf
+sudo sed -i "s/^autologin-user=.*/autologin-user=/" $autologin_config
 
 # Just boot to the terminal, this would need less resources than a desktop environment.
 # If you want switch back, use 'sudo systemctl set-default graphical.target'
