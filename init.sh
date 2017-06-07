@@ -74,6 +74,17 @@ then
     sudo systemctl set-default multi-user.target
 fi
 
+# Changes the Hostname of the Raspberry Pi
+echo "Do you want to change the hostname? (Y/N)"
+read change_hostname
+if [[ $change_hostname =~ ^[Yy]$ ]];
+then
+    hostname_config=/etc/hostname
+    echo "Please enter the new hostname"
+    read new_hostname
+    sudo sed -i "1s/.*/$new_hostname/" $hostname_config
+fi
+
 # Configures wifi.
 # Stores an encrypted wifi password.
 echo "Do you want to configure wifi? (Y/N)"
