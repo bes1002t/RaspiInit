@@ -59,8 +59,11 @@ do
 done
 
 # Disable autologin
+# To enable autologin readd the user for GUI autologin and use the following symling:
+# ln -fs /etc/systemd/system/autologin@.service /etc/systemd/system/getty.target.wants/getty@tty1.service
 autologin_config=/etc/lightdm/lightdm.conf
 sudo sed -i "s/^autologin-user=.*/autologin-user=/" $autologin_config
+sudo ln -fs /lib/systemd/system/getty@.service /etc/systemd/system/getty.target.wants/getty@tty1.service
 
 # Just boot to the terminal, this would need less resources than a desktop environment.
 # If you want switch back, use 'sudo systemctl set-default graphical.target'
