@@ -95,7 +95,7 @@ then
     read ssid
 
     echo "Please enter the password for SSID $ssid"
-    read wifi_password
+    read -s wifi_password
 
     if [ -n $ssid ] && [ -n $wifi_password ];
     then
