@@ -109,15 +109,15 @@ then
 fi
 
 # If there is a internet connection, install vim if it's not installed and update the Raspberry Pi afterwards.
-if [ $(ping www.google.de > /dev/null 2>&1; echo $?) == 0 ];
+if [ $(ping -c 1 www.google.de > /dev/null 2>&1; echo $?) == 0 ];
 then
+    echo "Do you want to Reboot after the Update? (Y/N)"
+    read reboot
+
     if [ $(dpkg-query -W -f='${Status}' vim 2>/dev/null | grep -c "ok installed") -eq 0 ];
     then
         sudo apt-get -y install vim
     fi
-
-    echo "Do you want to Reboot after the Update? (Y/N)"
-    read reboot
 
     sudo apt-get update
     sudo apt-get -y dist-upgrade
