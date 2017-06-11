@@ -33,7 +33,7 @@ fi
 is_new_user=1
 while [ $is_new_user -eq 1 ]
 do
-    echo "Please enter a new username"
+    echo "Please enter a new username (Raspbian only supports lower case names)"
     read username
 
     if [ $(id -u $username > /dev/null 2>&1; echo $?) -eq 0 ];
